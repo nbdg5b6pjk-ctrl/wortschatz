@@ -69,7 +69,7 @@ mark{background:var(--mark);color:inherit;border-radius:2px;padding:0 1px}
 .grammar div{margin:3px 0}
 .brand-r{display:flex;align-items:center;gap:10px}
 .brand h1{white-space:nowrap}
-@media (max-width:440px){.brand small{display:none}}
+@media (max-width:440px){.brand-r{flex-direction:column;align-items:flex-end;gap:2px}.brand small{order:2;font-size:.7rem}}
 .addbtn{border:0;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:6px 12px;font-size:.85rem;font-weight:600;cursor:pointer;white-space:nowrap}
 .badge{background:var(--chip);color:var(--accent);border-radius:4px;padding:0 5px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
 .panel{display:flex;flex-direction:column;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px}
@@ -581,4 +581,4 @@ document.querySelector(".wrap").hidden=false; const st=$("static"); if(st) st.re
 })();
 })();
 </script>
-<script>if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js");</script></body></html>
+<script>(function(){var B="1793002416523";if(!("serviceWorker" in navigator)||!location.protocol.startsWith("http"))return;navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(function(r){window.__reg=r}).catch(function(){});function chk(){if(window.__reg)window.__reg.update().catch(function(){});fetch("version.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B){var k="wz-reload-"+j.v;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible")chk()});window.addEventListener("pageshow",chk);chk()})();</script></body></html>
