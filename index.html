@@ -157,8 +157,8 @@ mark{background:var(--mark);color:inherit;border-radius:2px;padding:0 1px}
     <div class="controls">
       <div class="seg" role="group" aria-label="Direction">
         <button data-dir="both" aria-pressed="true">Both</button>
-        <button data-dir="en">EN → DE</button>
         <button data-dir="de">DE → EN</button>
+        <button data-dir="en">EN → DE</button>
       </div>
       <div class="seg" role="group" aria-label="Word type">
         <button data-pos="all" aria-pressed="true">All</button>
@@ -372,7 +372,7 @@ function themeTitle(lang){
   return lang==="de"?t[2]:t[1];
 }
 function renderList(){
-  const lang=S.dir==="de"?"de":"en";
+  const lang=S.dir==="en"?"en":"de";
   const rows=(lang==="de"?DE:EN).filter(r=>posOK(r)&&themeOK(r));
   $("crumb").hidden=false; $("crumbTitle").textContent=themeTitle(lang)+" · "+rows.length;
   let html='<ul class="list">',cur="",letters=[];
@@ -383,7 +383,7 @@ function renderList(){
   }
   html+="</ul>";
   if(!rows.length) html='<p class="empty">No words of this type in this theme.</p>';
-  else if(S.dir==="both") html='<p class="hint">Showing English → German. Switch to DE → EN for a German index of this theme.</p>'+html;
+  else if(S.dir==="both") html='<p class="hint">Showing German → English. Switch to EN → DE for an English index of this theme.</p>'+html;
   main.innerHTML=html;
   const lb=$("letters"); lb.hidden=letters.length<2;
   lb.innerHTML=letters.map(L=>`<button data-jump="${L}">${L}</button>`).join("");
@@ -392,7 +392,7 @@ function renderList(){
 function renderSearch(){
   const q=S.q;
   $("letters").hidden=true; $("crumb").hidden=!S.theme;
-  if(S.theme) $("crumbTitle").textContent="Searching in "+themeTitle("en");
+  if(S.theme) $("crumbTitle").textContent="Searching in "+themeTitle("de");
   const block=(rows,lang,title)=>{
     let h=`<h2 class="sec">${title} · ${rows.length}</h2>`;
     h+=rows.length?`<ul class="list">${rows.slice(0,S.limit).map(r=>rowHTML(r,lang,q)).join("")}</ul>`:'<p class="empty">No matches.</p>';
@@ -400,8 +400,8 @@ function renderSearch(){
     return h;
   };
   let h="";
-  if(S.dir!=="de") h+=block(search(EN,q),"en","English → Deutsch");
   if(S.dir!=="en") h+=block(search(DE,q),"de","Deutsch → English");
+  if(S.dir!=="de") h+=block(search(EN,q),"en","English → Deutsch");
   h+=`<p class="hint"><button class="link" data-addq="1">+ Add “${esc(qEl.value.trim())}” as a new word</button></p>`;
   main.innerHTML=h;
 }
@@ -530,7 +530,7 @@ document.addEventListener("click",async e=>{
   else if(d.more){S.limit+=200;render()}
   else if(d.jump){const el=document.getElementById("L-"+d.jump);if(el)el.scrollIntoView({block:"start"})}
   else if(d.go){S.dir=d.to;store.set("wz-dir",S.dir);setPressed("data-dir",S.dir);qEl.value=d.go;S.q=fold(d.go);S.limit=80;render();window.scrollTo(0,0)}
-  else if(d.addq){const v=qEl.value.trim();const isDe=S.dir==="de";S.view="add";S.msg="";S.q="";qEl.value="";renderAdd(isDe?{d:v}:{e:v});window.scrollTo(0,0)}
+  else if(d.addq){const v=qEl.value.trim();const isDe=S.dir!=="en";S.view="add";S.msg="";S.q="";qEl.value="";renderAdd(isDe?{d:v}:{e:v});window.scrollTo(0,0)}
   else if(d.del){
     const [src,key]=d.del.split(":");
     if(b.dataset.armed!=="1"){b.dataset.armed="1";b.textContent="Tap to confirm";setTimeout(()=>{if(b.isConnected){b.dataset.armed="";b.textContent="Delete"}},3000);return}
@@ -581,4 +581,4 @@ document.querySelector(".wrap").hidden=false; const st=$("static"); if(st) st.re
 })();
 })();
 </script>
-<script>(function(){var B="1793002523380";if(!("serviceWorker" in navigator)||!location.protocol.startsWith("http"))return;navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(function(r){window.__reg=r}).catch(function(){});function chk(){if(window.__reg)window.__reg.update().catch(function(){});fetch("version.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B){var k="wz-reload-"+j.v;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible")chk()});window.addEventListener("pageshow",chk);chk()})();</script></body></html>
+<script>(function(){var B="1793002713522";if(!("serviceWorker" in navigator)||!location.protocol.startsWith("http"))return;navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(function(r){window.__reg=r}).catch(function(){});function chk(){if(window.__reg)window.__reg.update().catch(function(){});fetch("version.json?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.v&&j.v!==B){var k="wz-reload-"+j.v;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}location.replace(location.pathname+"?v="+j.v)}}).catch(function(){})}document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible")chk()});window.addEventListener("pageshow",chk);chk()})();</script></body></html>
